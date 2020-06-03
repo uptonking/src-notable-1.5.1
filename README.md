@@ -1,8 +1,7 @@
 # Notable ([DOWNLOAD](https://github.com/notable/notable/releases))
 
-> This repo is a fork of [notable/notable](https://github.com/notable/notable).
+> This repo is a fork of [notable/notable](https://github.com/notable/notable).  
 > It's annotated to learn the source code.
-
 
 <p align="center">
   <img src="resources/demo/main.png" alt="Notable" width="750">
