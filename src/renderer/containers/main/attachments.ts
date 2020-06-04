@@ -1,4 +1,3 @@
-
 import * as _ from 'lodash';
 import CallsBatch from 'calls-batch';
 import watcher from 'chokidar-watcher';
@@ -9,21 +8,20 @@ import Config from '@common/config';
 import File from '@renderer/utils/file';
 import Utils from '@renderer/utils/utils';
 
-
+/**
+ * 类似notes
+ */
 class Attachments extends Container<AttachmentsState, MainCTX> {
 
-  /* VARIABLES */
 
   _listener?: import('chokidar').FSWatcher;
 
-  /* STATE */
 
   state = {
     attachments: {} as AttachmentsObj,
     editing: false
   };
 
-  /* CONSTRUCTOR */
 
   constructor() {
 
@@ -154,7 +152,5 @@ class Attachments extends Container<AttachmentsState, MainCTX> {
   }
 
 }
-
-/* EXPORT */
 
 export default Attachments;

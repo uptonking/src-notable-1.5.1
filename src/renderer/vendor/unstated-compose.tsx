@@ -38,10 +38,11 @@ function compose(containers: object) {
 
         // 遍历传入的Container类
         for (let name in containers) {
+          /** 当前状态管理类Container的对象 */
           const container = new containers[name]();
 
           // 将ComposedContainer的实例引用赋值给当前Container实例的ctx属性
-          // 相当于指定了了父store
+          // ctx相当于指定了了父store
           container.ctx = this;
 
           this[name] = container;
