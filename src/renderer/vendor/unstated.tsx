@@ -6,7 +6,7 @@ const StateContext = React.createContext(null);
 type Listener = () => any;
 
 /**
- * 普通的class,作为存放及更新state的容器,不包含ui组件,最终会放入到context的map中.
+ * 普通的class,作为存放及更新state的容器,不包含ui组件,最终会放入到context的value中.
  * 将setState从具体的某个UI组件上剥离，形成一个数据对象实体，可以被注入到任何组件。
  */
 export class Container<State extends object> {
@@ -26,7 +26,7 @@ export class Container<State extends object> {
 
   /**
    * 类似于react的setState,异步执行, mimics React's setState() method.
-   * unlike React's setState() Unstated's setState() returns a promise, so you can await it.
+   * unlike React's setState(), Unstated's setState() returns a promise, so you can await it.
    * 这里通过Promise.resolve().then模拟this.setState的异步执行
    */
   setState(updater, callback?: () => void): Promise<void> {
@@ -88,7 +88,7 @@ interface SubscribeProps {
 }
 
 // const DUMMY_STATE = {};
-/** 用在subscribe组件的onUpdate方法,虽然内容相同,但每次引用不相等 */
+/** 用在subscribe组件的onUpdate方法,虽然内容相同,但每次this.state都是Object.assign之后的，引用不相等 */
 const DUMMY_STATE = { dummy: true };
 
 /**
@@ -113,27 +113,27 @@ export class Subscribe extends React.Component<SubscribeProps, {}> {
     this._unsubscribe();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    console.log("==subscribe this.props === nextProps ");
-    console.log(this.props === nextProps);
-    // console.log(this.props);
-    // console.log(nextProps);
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log("==subscribe this.props === nextProps ");
+  //   console.log(this.props === nextProps);
+  //   // console.log(this.props);
+  //   // console.log(nextProps);
 
-    console.log("==subscribe this.state === nextState ");
-    console.log(this.state === nextState);
-    console.log(this.state);
-    console.log(nextState);
+  //   console.log("==subscribe this.state === nextState ");
+  //   console.log(this.state === nextState);
+  //   console.log(this.state);
+  //   console.log(nextState);
 
-    if (this.props !== nextProps) {
-      return true;
-    }
+  //   if (this.props !== nextProps) {
+  //     return true;
+  //   }
 
-    if (this.state !== nextState) {
-      return true;
-    }
+  //   if (this.state !== nextState) {
+  //     return true;
+  //   }
 
-    return false;
-  }
+  //   return false;
+  // }
 
   /**
    * 遍历instances,逐个调用unsubscribe()方法,清空container对应的listeners数组
@@ -154,7 +154,7 @@ export class Subscribe extends React.Component<SubscribeProps, {}> {
       if (!this.unmounted) {
         // 未卸载时执行
 
-        // 会强制再次调用render方法
+        // 会强制调用render方法，更新Subscribe组件
         this.setState(DUMMY_STATE, resolve);
       } else {
         // 卸载时执行
@@ -172,10 +172,10 @@ export class Subscribe extends React.Component<SubscribeProps, {}> {
    * @param containers 类型是Array<ContainerType>
    */
   _createInstances(map: Map<any, Container<any>>, containers: Array<any>) {
-    // 首先instance解除订阅
+    // 首先instance解除订阅，清空container对应的listener
     this._unsubscribe();
 
-    console.log(map.size);
+    // console.log(map.size);
 
     // 必须存在map,必须被Provider包裹才会有map
     if (map === null) {
@@ -194,16 +194,16 @@ export class Subscribe extends React.Component<SubscribeProps, {}> {
         typeof ContainerItem === "object" &&
         ContainerItem instanceof Container
       ) {
-        // 传入的是Container组件实例，则直接使用
+        // 传入的是Container实例，则直接使用
 
         instance = ContainerItem;
       } else {
-        // 传入的不是Container，可能是其他自定义组件等等(需要用new执行)，尝试获取
+        // 传入的不是Container实例，可能是其他自定义组件等等(需要用new执行)，尝试获取
 
-        // 如果传入的是类class(共享状态组件)，会尝试通过查询map，不存在的则通过new创建。
+        // 如果传入的是Class(共享状态组件)，会尝试通过查询map
         instance = safeMap.get(ContainerItem);
 
-        // 不存在则以它为key，value是新的Container组件
+        // 若不存在，则以它为key创建实例，value是新的Container实例
         if (!instance) {
           instance = new ContainerItem();
           safeMap.set(ContainerItem, instance);
@@ -213,19 +213,20 @@ export class Subscribe extends React.Component<SubscribeProps, {}> {
       // 每次创建时，都会先unsubscribe再subscribe，确保不会重复添加监听函数。
       instance.unsubscribe(this.onUpdate);
       // 每个container的实例都会保存一个onUpdate()到_listeners
+      // 当container实例调用setState方法时，就会触发Subscribe组件调用render
       instance.subscribe(this.onUpdate);
 
       return instance;
     });
 
-    console.log(map.size);
+    // console.log(map.size);
 
     this.instances = instances;
     return instances;
   }
 
-  // 其实是 render props
-  // 每一次render都会创建新的状态管理实例。作用是将状态管理实例传入children()函数进行渲染
+  // 其实是 render props，作用是将状态管理实例传入children()函数进行渲染。
+  // 每一次render，通常都会创建新的状态管理实例，若已存在则使用已有的。
   render() {
     // const in =
 
@@ -259,14 +260,14 @@ export function Provider(props: ProviderProps) {
         // 存放键值对：对象的构造函数，对象实例
         let childMap = new Map(parentMap);
 
-        console.log("==parentMap");
-        console.log(parentMap);
-        console.log(childMap);
+        // console.log("==parentMap");
+        // console.log(parentMap);
+        // console.log(childMap);
 
         // 外部注入的状态管理实例
         if (props.inject) {
           props.inject.forEach((instance) => {
-            console.log("==childMap");
+            // console.log("==childMap");
 
             childMap.set(instance.constructor, instance);
           });

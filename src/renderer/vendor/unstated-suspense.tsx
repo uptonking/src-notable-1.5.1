@@ -60,7 +60,7 @@ class Container<State extends object> extends BaseContainer<State> {
 
     if (this._updateSuspended) return;
 
-    // 强制调用setState，会导致再次执行Subscribe组件的render
+    // 强制调用setState，会导致再次执行Subscribe组件的render()方法，
     const promises = this._listeners.map((listener) => listener());
 
     Promise.all(promises).then(() => {

@@ -5,8 +5,9 @@ import { Container as BaseContainer } from "./unstated-suspense";
  * 几乎重写了container,会在setState后,unsuspend前,依次执行middlewares数组中的方法
  */
 class Container<State extends object> extends BaseContainer<State> {
-  private _running = false;
+  /** 中间件就是待执行的方法构成的数组 */
   private _middlewares: Function[] = [];
+  private _running = false;
   private _middlewaresSuspendNr = 0;
   private _middlewaresSuspendedState?: State;
   private _middlewaresSuspended = false;
@@ -14,9 +15,11 @@ class Container<State extends object> extends BaseContainer<State> {
   constructor() {
     super();
 
+    // 初始化时就执行所有中间件函数
     this.middlewares();
   }
 
+  /** 空的模板方法，由子类实现，用来添加注册中间件方法，多次调用addMiddleware */
   middlewares() {}
 
   addMiddleware(middleware: Function) {
@@ -61,13 +64,14 @@ class Container<State extends object> extends BaseContainer<State> {
     // 然后计算新state
     await super.setState(updater, callback);
 
-    // 依次执行中间件方法
+    // 执行中间件方法
     await this._middlewaresRun(prevState);
 
     // 取消暂停
     this.unsuspend();
   }
 
+  /** 遍历中间件方法并执行，中间件的返回值会直接更新this.state */
   private async _middlewaresRun(prevState: State) {
     this._middlewaresSuspended = !!this._middlewaresSuspendNr;
 

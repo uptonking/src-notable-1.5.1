@@ -9,19 +9,16 @@ import File from '@renderer/utils/file';
 import Utils from '@renderer/utils/utils';
 
 /**
- *
+ * 负责监听所有笔记文件的更新，并将最新的notes数据保存到state
  */
 class Notes extends Container<NotesState, MainCTX> {
 
-
   _listener?: import('chokidar').FSWatcher;
-
 
   state = {
     notes: {} as NotesObj
   };
 
-  /* CONSTRUCTOR */
 
   constructor() {
 
@@ -59,7 +56,8 @@ class Notes extends Container<NotesState, MainCTX> {
 
   listen = () => {
 
-    if (this._listener) this._listener.close(); // In order to better support HMR
+    // In order to better support HMR
+    if (this._listener) this._listener.close();
 
     const batch = new CallsBatch({
       preflush: () => {
@@ -187,6 +185,5 @@ class Notes extends Container<NotesState, MainCTX> {
 
 }
 
-/* EXPORT */
 
 export default Notes;
