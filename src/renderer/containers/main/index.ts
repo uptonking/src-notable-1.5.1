@@ -141,6 +141,7 @@ class Main extends Container<MainState, MainCTX> {
 
   /* API */
 
+  /** 读取所有笔记文件和附件 */
   refresh = async () => {
 
     await this.ctx.theme.update();
@@ -156,6 +157,7 @@ class Main extends Container<MainState, MainCTX> {
 
   }
 
+  /** 监听笔记文件的更新 */
   listen = () => {
 
     this.ctx.attachments.listen();

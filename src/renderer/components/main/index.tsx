@@ -29,6 +29,7 @@ interface MainProps {
 class MainDefaultPage extends React.Component<MainProps, {}> {
   async componentDidMount() {
     if (this.props.loading) {
+      // 会调用MainContainer的refresh()方法读取所有笔记文件
       await this.props.refresh();
     }
 

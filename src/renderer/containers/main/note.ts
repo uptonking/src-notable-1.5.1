@@ -120,6 +120,9 @@ class Note extends Container<NoteState, MainCTX> {
     }
   };
 
+  /**
+   * 添加新的笔记文件，并更新顶层state的notes部分
+   */
   add = async (note: NoteObj, _refresh: boolean = true) => {
     const notes = _.clone(this.ctx.notes.get());
 
