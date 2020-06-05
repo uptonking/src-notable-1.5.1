@@ -37,6 +37,7 @@ class Main extends Container<MainState, MainCTX> {
   _prevFlags?: ContextFlags;
 
 
+  // compose继承后，这里会调用ComposedContainer中的构造方法，创建父子层级形式的store
   constructor() {
     super();
     autosuspend(this);

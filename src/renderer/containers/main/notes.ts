@@ -170,7 +170,7 @@ class Notes extends Container<NotesState, MainCTX> {
         !nextNote.content.length &&
         Math.abs(
           note.metadata.modified.getTime() -
-            nextNote.metadata.modified.getTime()
+          nextNote.metadata.modified.getTime()
         ) < 1500
       )
         return; //FIXME: For some reason some times the note gets read as an empty string, maybe we are reading and writing at "the same" time and the file gets cleared?

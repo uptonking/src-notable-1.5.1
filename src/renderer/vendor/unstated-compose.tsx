@@ -18,7 +18,7 @@ class ParentContainer<
     | Context; //FIXME: Should be `[key in keyof Children]: Children[keyof Children]` instead
 }
 /**
- * 一个高阶方法，会接收输入的多个状态对象，然后合并到MainContainer这个参数对象上。
+ * 一个高阶方法，会接收输入的多个状态对象，然后合并到MainContainer这个参数class类上。
  * Compose multiple containers into one.
  * This is useful when you want to have a single container, perhaps subscribed to via unstated-connect2, but it starts to become too big.
  *  This package allows you to refactor it into multiple separate containers that can still be merged back together.
@@ -32,8 +32,9 @@ function compose(containers: object) {
       constructor() {
         super();
 
+        // 作为顶级store，state存放所有子store的state
         this.state = {};
-        // 作为顶级store，属性ctx指定了所拥有的子store实例
+        // 作为顶级store，ctx属性存放所有子store的实例对象
         this.ctx = {};
 
         // 遍历传入的Container类
@@ -41,8 +42,7 @@ function compose(containers: object) {
           /** 当前状态管理类Container的对象 */
           const container = new containers[name]();
 
-          // 将ComposedContainer的实例引用赋值给当前Container实例的ctx属性
-          // ctx相当于指定了了父store
+          // 用当前container实例的ctx属性，指定其父store
           container.ctx = this;
 
           this[name] = container;

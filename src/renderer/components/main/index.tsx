@@ -24,9 +24,9 @@ interface MainProps {
 }
 
 /**
- * 笔记默认首页的组件, 主要分3部分,sidebar,middlebar,mainbar
+ * 笔记默认首页的react组件, 主要分3部分,sidebar,middlebar,mainbar
  */
-class Main extends React.Component<MainProps, {}> {
+class MainDefaultPage extends React.Component<MainProps, {}> {
   async componentDidMount() {
     if (this.props.loading) {
       await this.props.refresh();
@@ -80,4 +80,4 @@ export default connect({
     isZen: container.window.isZen(),
     hasSidebar: container.window.hasSidebar(),
   }),
-})(Main);
+})(MainDefaultPage);
