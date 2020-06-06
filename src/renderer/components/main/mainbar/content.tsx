@@ -19,9 +19,16 @@ const Content = ({
   isMultiEditing,
   isSplit,
 }) => {
-  if (isLoading || !hasNote) return <Toolbar />;
+  if (isLoading || !hasNote) {
+    // 若处于加载状态，或没有笔记文件，则只显示工具条
 
-  if (isMultiEditing) return <MultiEditor />;
+    return <Toolbar />;
+  }
+
+  if (isMultiEditing) {
+    // 若处理多项目编辑状态，则只显示多项目菜单项
+    return <MultiEditor />;
+  }
 
   return (
     <>

@@ -26,7 +26,7 @@ const Toolbar = ({ hasNote, isFocus, isFullscreen, isZen, isSplit }) => {
           <div className="toolbar-semaphore-spacer"></div>
         )}
 
-        {/* 编辑笔记/标签/附件的图标 */}
+        {/* 编辑与查看状态切换/标签/附件的图标 */}
         <div className="multiple joined">
           {isSplit ? <SplitEditorButton /> : <EditorButton />}
           <TagsButton />
@@ -46,7 +46,7 @@ const Toolbar = ({ hasNote, isFocus, isFullscreen, isZen, isSplit }) => {
         </div>
         <div className="spacer"></div>
 
-        {/* 使用系统默认程序打开本文档 */}
+        {/* 最右侧图标，使用系统默认程序打开本文档 */}
         <OpenButton />
       </div>
     </div>

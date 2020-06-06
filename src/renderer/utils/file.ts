@@ -4,15 +4,11 @@ import * as path from 'path';
 import * as pify from 'pify';
 
 /**
- * 
+ * 实际执行文件读写操作，并记录操作个数
  */
 const Storage = { //TODO: This shouldn't be here
 
-  /* VARIABLES */
-
   operations: 0, // Number of currently pending operations
-
-  /* HELPERS */
 
   _wrapAction(action: Function) {
 
@@ -35,8 +31,7 @@ const Storage = { //TODO: This shouldn't be here
 
 };
 
-/* FILE */
-
+/** 提供操作文件的方法 */
 const File = {
 
   /* VARIABLES */
@@ -85,10 +80,12 @@ const File = {
 
   }),
 
+  /** 读取文件，返回promise */
   read: Storage._wrapAction(async (filePath: string, encoding: string = 'utf8'): Promise<string | undefined> => {
 
     try {
 
+      // 异步读取文件内容，返回文本字符串
       return (await pify(fs.readFile)(filePath, { encoding })).toString();
 
     } catch (e) { }

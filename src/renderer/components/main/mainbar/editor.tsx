@@ -21,7 +21,10 @@ interface EditorProps {
   reset: Function;
 }
 
-/** markdown编辑器, render返回的就是Monaco组件 */
+/**
+ * markdown编辑器, render返回的是自定义Monaco组件。
+ * 管理编辑器的挂载与卸载、onChange、update、scroll等事件。
+ */
 class Editor extends React.Component<EditorProps, {}> {
   _wasWindowBlurred: boolean = false;
 
