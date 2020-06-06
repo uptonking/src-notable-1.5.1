@@ -524,6 +524,7 @@ const Markdown = {
 
       const { asciimath2tex, katex, mermaid, mermaidOpenExternal, highlight, copy, checkbox, targetBlankLinks, resolveRelativeLinks, encodeSpecialLinks, attachment, note, tag, noProtocolLinks, wikilink } = Markdown.extensions;
 
+      // 返回的是showdown的converter
       const converter = new showdown.Converter({
         metadata: true,
         extensions: [asciimath2tex(), katex(), mermaid(), mermaidOpenExternal(), highlight(), copy(), checkbox(), targetBlankLinks(), resolveRelativeLinks(), encodeSpecialLinks(), attachment(), wikilink(), note(), tag(), noProtocolLinks()]
@@ -563,6 +564,7 @@ const Markdown = {
 
   },
 
+  /** 将md内容的文本字符串转换成html */
   render: (str: string, limit: number): string => {
 
     if (!str || !Markdown.is(str)) return `<p>${str}</p>`;
@@ -579,7 +581,10 @@ const Markdown = {
 
   },
 
-  limiter: (str: string, limit: number = 25000): string => { //FIXME: Limiting the maximum size of rendable Markdown in order to avoid crashing the app //URL: https://github.com/notable/notable/issues/531
+  //FIXME: Limiting the maximum size of rendable Markdown in order to avoid crashing the app
+  //URL: https://github.com/notable/notable/issues/531
+  // 设置了渲染的最大字符数
+  limiter: (str: string, limit: number = 25000): string => {
 
     if (str.length <= limit) return str;
 

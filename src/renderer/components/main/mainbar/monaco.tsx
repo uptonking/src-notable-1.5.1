@@ -101,6 +101,7 @@ class Monaco extends React.Component<MonacoProps, {}> {
   _zoneTopId?: number;
 
   componentWillMount() {
+    // 设置manoco的默认主题、md分词器
     UMonaco.init();
 
     if (this.props.onChange) {
@@ -183,6 +184,7 @@ class Monaco extends React.Component<MonacoProps, {}> {
 
   /* EDITOR LIFECYCLE */
 
+  // 在initMonaco()中被调用
   editorWillMount() {
     const { editorWillMount } = this.props;
 
