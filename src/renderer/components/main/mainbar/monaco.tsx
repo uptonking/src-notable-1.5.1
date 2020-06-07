@@ -87,12 +87,12 @@ interface MonacoProps {
 /**
  * 根据微软Monaco编辑器封装成的组件，render返回的只是一个div。
  * 主要涉及react组件的生命周期、editor的生命周期、monaco的生命周期，周期包括初始化、更新、卸载。
- * 其中componentWillMount中会初始化Monaco，Monaco的操作逻辑在utils/monaco.ts文件。
+ * 其中componentWillMount中会初始化Monaco，Monaco的配置选项在utils/monaco.ts文件。
  */
 class Monaco extends React.Component<MonacoProps, {}> {
   /** render中返回div的DOM节点的引用 */
   ref = React.createRef<HTMLDivElement>();
-  /** 编辑器对象 */
+  /** 编辑器对象， 类型在monaco-editor/esm/vs/editor/editor.api.js中定义 */
   editor?: MonacoEditor;
   _currentValue: string = "";
   _currentChangeDate: Date | undefined = undefined;
@@ -153,7 +153,8 @@ class Monaco extends React.Component<MonacoProps, {}> {
   }
 
   shouldComponentUpdate(nextProps) {
-    //TODO: Most of these update* functions should run in `componentDidMount`, but ensuring that the "value" doesn't get reset unnecessarily
+    //TODO: Most of these update functions should run in `componentDidMount`,
+    // but ensuring that the "value" doesn't get reset unnecessarily
 
     this.editorUpdate();
 
@@ -309,7 +310,7 @@ class Monaco extends React.Component<MonacoProps, {}> {
           )
         : UMonaco.editorOptions;
 
-    // 实例化
+    // 用dom引用和编辑器配置，初始化editor对象
     this.editor = (monaco.editor.create(
       this.ref.current!,
       finalEditorOptions

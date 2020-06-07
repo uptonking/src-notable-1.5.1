@@ -45,7 +45,7 @@ const Content = ({
   if (!notebooks.notes.length && !templates.notes.length)
     data.splice(3, 1, ...Tags.sort(Object.values(tags.tags))); // If this is the only nestable special tag, avoid using it
 
-    console.log('==sidebar, content')
+  console.log("==sidebar, content");
   return (
     <KeyedTree
       className="list-tags layout-content"

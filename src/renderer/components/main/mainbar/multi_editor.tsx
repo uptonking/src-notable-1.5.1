@@ -1,6 +1,3 @@
-
-/* IMPORT */
-
 import * as React from 'react';
 import {connect} from 'overstated';
 import Main from '@renderer/containers/main';

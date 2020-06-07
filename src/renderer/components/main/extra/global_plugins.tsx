@@ -7,12 +7,8 @@ import Main from "@renderer/containers/main";
  * 添加全局监听器，如自动更新、快捷面板
  */
 class GlobalPlugins extends Component<{ container: IMain }, {}> {
-  /* VARIABLES */
-
   _updaterTimeout?: NodeJS.Timeout;
   _updaterInterval?: NodeJS.Timeout;
-
-  /* SPECIAL */
 
   componentDidMount() {
     if (Config.autoupdate) {

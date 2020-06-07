@@ -8,12 +8,9 @@ import Main from "@renderer/containers/main";
  * 纯容器组件，添加 ipcRenderer 事件监听
  */
 class IPC extends Component<{ containers: [IMain, ICWD] }, {}> {
-  /* VARIABLES */
 
   main: IMain;
   cwd: ICWD;
-
-  /* CONSTRUCTOR */
 
   constructor(props: { containers: [IMain, ICWD] }) {
     super(props);
@@ -21,7 +18,6 @@ class IPC extends Component<{ containers: [IMain, ICWD] }, {}> {
     this.main = props.containers[0];
     this.cwd = props.containers[1];
   }
-
 
   componentDidMount() {
     ipc.on("cwd-change", this.__cwdChange);

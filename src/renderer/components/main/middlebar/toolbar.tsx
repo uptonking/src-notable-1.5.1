@@ -1,5 +1,3 @@
-/* IMPORT */
-
 import { is } from "electron-util";
 import * as React from "react";
 import { connect } from "overstated";

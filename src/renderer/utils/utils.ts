@@ -2,7 +2,7 @@ import CallsBatch from 'calls-batch';
 import * as os from 'os';
 
 /**
- * 工具方法对象
+ * 各类工具方法对象
  */
 const Utils = {
 
